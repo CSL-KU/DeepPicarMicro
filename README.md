@@ -60,6 +60,8 @@ To perform a NAS for a given model backbone/dataset combination, the following c
 	$ python filter_models.py <max_connections>
 	$ python train_pass.py
 	$ ./create-cc.sh <dataset_name>
+	
+Note: The NAS process can be resource intensive in terms of system and GPU memory. In the paper, we used a PC with 64GB of system memory and a GPU with 10GB of memory.
 
 ## Pico
 
