@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import math
+import glob
 
 if not os.path.exists(model_file):
     os.makedirs(model_file)
@@ -42,7 +43,8 @@ input_channels = params.inputchannels # Input channels, should be 1 (grayscale) 
 
 # Load all train/test data into their respective lists
 for i in range(1,12):
-    vid = cv2.VideoCapture("Dataset/out-video-{}.avi".format(i))
+    vid_file = glob.glob("Dataset/{}/epoch{}/*.avi".format(params.dataset, i))[0]
+    vid = cv2.VideoCapture(vid_file)
     ret,img = vid.read()
     while(ret):
         # Image translation to match Micro's camera
@@ -61,7 +63,8 @@ for i in range(1,12):
         img = img / 255.
         imgs.append(img)
         ret,img = vid.read()
-    temp = np.asarray(read_csv("Dataset/out-key-{}.csv".format(i))["wheel"].values)
+    csv_file = glob.glob("Dataset/{}/epoch{}/*.csv".format(params.dataset, i))[0]
+    temp = np.asarray(read_csv(csv_file)["wheel"].values)
     vals.extend(temp)
     print(len(imgs), len(vals))    
 
