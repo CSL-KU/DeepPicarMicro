@@ -20,7 +20,7 @@ For example, to train the large model you would want to change model_small and m
 
 ### Dataset
 
-The dataset used to train the models can be found at https://drive.google.com/file/d/1KK645H6xrG5xmPH4EZ9tt6vm61O5Y6PL/view, or custom data can be used instead. In either case, the data should be placed in a new folder ModelCreation/Dataset.
+The dataset used to train the models can be found at https://drive.google.com/file/d/1Fjwy-dLDp5sNilPTUMXUkmnUF1SrXDOl/view, or custom data can be used instead. In either case, the data should be placed in a new folder ModelCreation/Dataset.
 
 ### Keras/TFLite/TFLiteMicro Model Creation
 

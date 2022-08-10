@@ -42,7 +42,7 @@ resize_vals=params.inputres # Input dimensions
 input_channels = params.inputchannels # Input channels, should be 1 (grayscale) or 3 (RGB)
 
 # Load all train/test data into their respective lists
-for i in range(1,12):
+for i in range(0,10):
     vid_file = glob.glob("Dataset/{}/epoch{}/*.avi".format(params.dataset, i))[0]
     vid = cv2.VideoCapture(vid_file)
     ret,img = vid.read()
