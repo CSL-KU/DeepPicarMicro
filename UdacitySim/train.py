@@ -129,26 +129,17 @@ quantized_tflite_model = converter.convert()
 with open(model_file+"full-model.tflite", 'wb') as f:
     f.write(quantized_tflite_model)
 
+# Load the TFLite model
 interpreter = tf.lite.Interpreter(model_path=model_file+"full-model.tflite")
-
-interpreter.allocate_tensors()
-
 input_index = interpreter.get_input_details()[0]["index"]
 output_index = interpreter.get_output_details()[0]["index"]
 
+# Test the TFLite model
 length = len(imgs_test)
-predicted_angles = []
-for i in tqdm(range(length)):
-  img = imgs_test[i]
-  img = np.expand_dims(img, axis=0).astype(np.float32)
-
-  interpreter.set_tensor(input_index, img)
-  interpreter.invoke()
-
-  predicted_angle = interpreter.get_tensor(output_index)[0][0]
-  predicted_angles.append(predicted_angle)
-
+interpreter.resize_tensor_input(input_index, [length, resize_vals[1], resize_vals[0], input_channels])
+interpreter.allocate_tensors()
+interpreter.set_tensor(input_index, np.array(imgs_test, dtype=np.float32))
+interpreter.invoke()
+predicted_angles = interpreter.get_tensor(output_index)
 rmse = sqrt(mean_squared_error(vals_test, predicted_angles))
-
 print("RMSE is {:.2f}".format(rmse))
-

@@ -25,6 +25,14 @@ def deg2rad(deg):
     return deg * math.pi / 180.0
 def rad2deg(rad):
     return 180.0 * rad / math.pi
+def get_action(angle_rad):
+    degree = rad2deg(angle_rad)
+    if degree < 15 and degree > -15:
+        return "center"
+    elif degree >= 15:
+        return "right" 
+    elif degree <-15:
+        return "left"
 
 def preprocess(img, resize_vals, input_channels):
 	img = cv2.resize(img, (320, 240))
@@ -143,41 +151,22 @@ for i,row in enumerate(reader):
 	plt.ylabel('loss')
 	plt.xlabel('epoch')
 	plt.legend(['train', 'test'], loc='upper left')
-
-	# Find accuracy 
+            
+	# Load the TFLite model
 	interpreter = tf.lite.Interpreter(model_path=model_file+"model.tflite")
-
-	interpreter.allocate_tensors()
-
 	input_index = interpreter.get_input_details()[0]["index"]
 	output_index = interpreter.get_output_details()[0]["index"]
 
-	def get_action(angle_rad):
-		degree = rad2deg(angle_rad)
-		if degree < 15 and degree > -15:
-			return "center"
-		elif degree >= 15:
-			return "right" 
-		elif degree <-15:
-			return "left"
-
+	# Test the TFLite model
 	length = len(imgs_test)
-	accuracy = 0 
-	for j in range(length):
-		img = imgs_test[j]
-		img = np.expand_dims(img, axis=0).astype(np.float32)
-
-		interpreter.set_tensor(input_index, img)
-		# Run inference.
-		interpreter.invoke()
-		# Post-processing: remove batch dimension and find the digit with highest probability.
-
-		predicted_angle = interpreter.get_tensor(output_index)[0][0]
-		groundtrue_angle = vals_test[j]
-
-		if get_action(predicted_angle) == get_action(groundtrue_angle):
-			accuracy = accuracy + 1
-	accuracy = accuracy/length * 100
+	interpreter.resize_tensor_input(input_index, [length, h_len, w_len, d_len])
+	interpreter.allocate_tensors()
+	interpreter.set_tensor(input_index, np.array(imgs_test, dtype=np.float32))
+	interpreter.invoke()
+	predicted_angles = interpreter.get_tensor(output_index)
+	predicted = np.array(list(map(get_action, predicted_angles)))
+	ground = np.array(list(map(get_action, vals_test)))
+	accuracy = np.mean(predicted==ground)*100
 
 	# Print out and write model statistics to csv file
 	print("Model", i)

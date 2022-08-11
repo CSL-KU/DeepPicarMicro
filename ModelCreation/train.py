@@ -122,23 +122,18 @@ def get_action(angle_rad):
   elif degree <-15:
     return "left"
 
+# Load the TFLite model
 interpreter = tf.lite.Interpreter(model_path=model_file+"full-model.tflite")
-interpreter.allocate_tensors()
 input_index = interpreter.get_input_details()[0]["index"]
 output_index = interpreter.get_output_details()[0]["index"]
 
+# Test the TFLite model
 length = len(imgs_test)
-accuracy = 0 
-for i in tqdm(range(length)):
-  img = imgs_test[i]
-  img = np.expand_dims(img, axis=0).astype(np.float32)
-
-  interpreter.set_tensor(input_index, img)
-  interpreter.invoke()
-  predicted_angle = interpreter.get_tensor(output_index)[0][0]
-  groundtrue_angle = vals_test[i]
-
-  if get_action(predicted_angle) == get_action(groundtrue_angle):
-    accuracy = accuracy + 1
-
-print(f"\nAccuracy is {(accuracy/length)*100:.2f}%")
+interpreter.resize_tensor_input(input_index, [length, resize_vals[1], resize_vals[0], input_channels])
+interpreter.allocate_tensors()
+interpreter.set_tensor(input_index, np.array(imgs_test, dtype=np.float32))
+interpreter.invoke()
+predicted_angles = interpreter.get_tensor(output_index)
+predicted = np.array(list(map(get_action, predicted_angles)))
+ground = np.array(list(map(get_action, vals_test)))
+print(f"\nAccuracy is {np.mean(predicted==ground)*100:.2f}%")
