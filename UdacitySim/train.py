@@ -35,6 +35,7 @@ import math
 from math import sqrt
 import os
 import random
+import glob
 
 if not os.path.exists(model_file):
     os.makedirs(model_file)
@@ -59,7 +60,8 @@ for i in [0,1,2,3,4,5]:
     imgs_rev = []
     vals_rev = []
     
-    vid = cv2.VideoCapture("data/epoch{}/out-video.avi".format(i))
+    vid_file = glob.glob("../Dataset/{}/epoch{}/*.avi".format(params.dataset,i))[0]
+    vid = cv2.VideoCapture(vid_file)
     ret,img = vid.read()
     
     while(ret):        
@@ -78,9 +80,9 @@ for i in [0,1,2,3,4,5]:
         imgs_cur.append(img)
         ret,img = vid.read()
         
-    temp = np.asarray(read_csv("data/epoch{}/driving_log.csv".format(i), header=None).iloc[:,3].values)
+    csv_file = glob.glob("../Dataset/{}/epoch{}/*csv".format(params.dataset,i))[0]
+    temp = np.asarray(read_csv(csv_file, header=None).iloc[:,3].values)
     vals_cur.extend(f(temp,0))
-    
     
     print(len(imgs_cur), len(vals_cur))
     

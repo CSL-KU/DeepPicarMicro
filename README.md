@@ -20,7 +20,27 @@ For example, to train the large model you would want to change model_small and m
 
 ### Dataset
 
-The dataset used to train the models can be found at https://drive.google.com/file/d/1Fjwy-dLDp5sNilPTUMXUkmnUF1SrXDOl/view, or custom data can be used instead. In either case, the data should be placed in a new folder ModelCreation/Dataset.
+We assume that all datasets are located in a directory named "Datasets/" with the following structure:
+
+	```
+	Dataset
+	|____<dataset #1>
+	|	|____<epoch #1>
+	|	|	|	out_video.avi
+	|	|	|	out_key.avi
+	|	|____<epoch #2>
+	|	|	...
+	|____<dataset #2>
+	|	...
+	```
+	
+This is to allow for multiple datasets to be present, but manually select which dataset to use for model training. This selection can be done by setting the "dataset" parameters in any of the params.py files to the name of the dataset. For example:
+
+	dataset="<dataset #1>"	# Replace with actual dataset name
+
+The datasets used to train the models in the paper can be found at:
+- Real-world dataset: https://drive.google.com/file/d/1Fjwy-dLDp5sNilPTUMXUkmnUF1SrXDOl/view
+- Udacity simulator dataset: https://drive.google.com/file/d/1WW0r-Zx0_sPULpsV_44i-M1zZhQwX6ao/view
 
 ### Keras/TFLite/TFLiteMicro Model Creation
 
@@ -36,20 +56,7 @@ Where <size> is the model architecture trained and <model-name> is the name of t
 
 ## Neural Architecture Search (NAS)
 
-For the NAS, we assume that the datasets are added to a different folder in the NAS directory called "NAS/Dataset/". We use the same file name conventions as in the ModelCreation folder, but with the following directory structure:
-
-	```
-	NAS
-	|___Dataset
-	|	|____<dataset #1>
-	|	|	|____<epoch #1>
-	|	|	|	|	out_video.avi
-	|	|	|	|	out_key.avi
-	|	|	|____<epoch #2>
-	|	|	|	...
-	|	|____<dataset #2>
-	|	|	...
-	```
+For the NAS, we assume that the datasets are added to a different folder in the NAS directory called "NAS/Dataset/". 
 	
 This is to allow for multiple datasets to be present, but manually select which dataset to use for the NAS. This selection can be done by setting the "dataset" parameters in NAS/All/params.py to the name of the dataset. For example:
 

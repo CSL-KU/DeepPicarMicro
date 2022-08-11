@@ -63,7 +63,7 @@ vals = []
 # Load train/test data
 total_frames=params.totalframes
 frame_num = 0
-for folder in glob.glob("../Dataset/{}/*".format(params.dataset)):
+for folder in glob.glob("../../Dataset/{}/*".format(params.dataset)):
     print(folder)
     vid_file = glob.glob("{}/*.avi".format(folder))[0]
     vid = cv2.VideoCapture(vid_file)
