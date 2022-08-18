@@ -8,15 +8,11 @@ In order to train the DeepPicar models the following Python modules are required
 
 	$ pip install tensorflow numpy pandas scikit-learn opencv-python tensorflow-model-optimization
 	
-The model architecture also needs to be manually changed in the following lines of the quant-train.py file:
+The model architecture can be set by changing the modelname field in any params.py:
 
-	1 from model_small import model 
-	...
-	56 q_aware_model.save('models/quant_model_small.h5')
-	...
-	66 with open('models/quant-model-small.tflite', 'wb') as f:
+	modelname = "pilotnet"
 	
-For example, to train the large model you would want to change model_small and model-small in the above lines to model_large and model-large, respectively. 
+For example, to train the PilotNet model with Depthwise Separable layers, change "pilotnet" to "pilotnet_depthwise". 
 
 ### Dataset
 
@@ -34,7 +30,7 @@ We assume that all datasets are located in a directory named "Datasets/" with th
 	|	...
 	```
 	
-This is to allow for multiple datasets to be present, but manually select which dataset to use for model training. This selection can be done by setting the "dataset" parameters in any of the params.py files to the name of the dataset. For example:
+The dataset used for training can then be changed in any params.py::
 
 	dataset="<dataset #1>"	# Replace with actual dataset name
 
@@ -48,23 +44,17 @@ To create both Keras and TFLite models for the chosen architecture, run the foll
 
 	$ python quant-train.py
 	
-To create a TFLiteMicro compatible model representation, run the following command inside the ModelCreation/models/ directory:
+To create a TFLiteMicro compatible model representation, run the following command inside the desired models directory:
 
-	$ xxd -i quant-model-<size>.tflite > <model-name>.cc
+	$ xxd -i quant-model.tflite <model-name>.cc
 	
-Where <size> is the model architecture trained and <model-name> is the name of the new file.
+Where <model-name> is the name of the new file.
 
 ## Neural Architecture Search (NAS)
 
-For the NAS, we assume that the datasets are added to a different folder in the NAS directory called "NAS/Dataset/". 
-	
-This is to allow for multiple datasets to be present, but manually select which dataset to use for the NAS. This selection can be done by setting the "dataset" parameters in NAS/All/params.py to the name of the dataset. For example:
-
-	dataset="<dataset #1>"	# Replace with actual dataset name
-
 To perform a NAS for a given model backbone/dataset combination, the following commands can be run:
 
-	$ python filter_models.py <max_connections>
+	$ python filter_models.py <max_MACs>
 	$ python train_pass.py
 	$ ./create-cc.sh <dataset_name>
 	
