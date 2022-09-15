@@ -34,6 +34,13 @@ def calculate_connections(model):
                 extra_tab="\t"
             print("{} (Conv2D)\t\t{}*{}{}\t\t{}".format(layer_num, input_neurons, output_neurons, extra_tab, layer_connections)) 
             print("-----------------------------------------------------------------------")
+        elif(type(layer) == tf.keras.layers.DepthwiseConv2D):
+            input_depth = layer.input.shape[3]
+            output_shape = layer.output.shape
+            kernel_size = layer.kernel_size
+            layer_connections = input_depth * output_shape[1] * output_shape[2] * kernel_size[0] * kernel_size[1]
+            print("{} (DWConv2D)\t\t{}*{}*{}*{}*{}\t\t{}".format(layer_num, input_depth, output_shape[1], output_shape[2], kernel_size[0], kernel_size[1], layer_connections))
+            print("-----------------------------------------------------------------------")
         else:
             continue    # Skip to next layer
            
@@ -70,6 +77,17 @@ def networkValues(model):
             output_neurons = layer.output.shape[1]
             layer_connections = input_neurons * output_neurons
             layer_weights = layer_connections + output_neurons
+        elif(type(layer) == tf.keras.layers.DepthwiseConv2D):
+            input_depth = layer.input.shape[3]
+            output_shape = layer.output.shape
+            kernel_size = layer.kernel_size
+            
+            temp = input_depth * kernel_size[1] * kernel_size[1] #* output_shape[3]
+            layer_weights = temp + output_shape[3]
+            layer_connections = temp * output_shape[1] * output_shape[2]
+        elif(type(layer) == tf.keras.layers.BatchNormalization):
+            layer_weights = layer.input.shape[3] * 4
+            layer_connections = 0
         else:
             continue    # Skip to next layer
            

@@ -102,7 +102,7 @@ for i,row in enumerate(reader):
 		continue
 
 	# Get model parameters for current architecture
-	[conv_str, fc_str, width_mult, h_len, w_len, d_len, Connections, Weights] = row
+	[conv_str, fc_str, width_mult, h_len, w_len, d_len, Weights, Connections] = row
 	model_file = "{}/models/{}-{}_{}x{}x{}_{}/".format(params.dataset, conv_str, fc_str, w_len, h_len, d_len, width_mult)
 	if not os.path.exists(model_file):
 		os.makedirs(model_file)
