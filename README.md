@@ -2,7 +2,7 @@
 
 ## Demo
 
-[![DeepPicarMicro demo video](https://img.youtube.com/vi/eOXLIcRKT5k/0.jpg)](https://www.youtube.com/watch?v=eOXLIcRKT5k)
+[![DeepPicarMicro demo video](https://img.youtube.com/vi/tpxJCQZ17Os/0.jpg)](https://www.youtube.com/watch?v=tpxJCQZ17Os)
 
 ## Model Training
 
