@@ -1,5 +1,9 @@
 # DeepPicarMicro
 
+## Demo
+
+[![DeepPicarMicro demo video](https://img.youtube.com/vi/eOXLIcRKT5k/0.jpg)](https://www.youtube.com/watch?v=eOXLIcRKT5k)
+
 ## Model Training
 
 ### Dependencies
