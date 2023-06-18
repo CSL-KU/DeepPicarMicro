@@ -10,7 +10,7 @@
 
 In order to train the DeepPicar models the following Python modules are required:
 
-	$ pip install tensorflow numpy pandas scikit-learn opencv-python tensorflow-model-optimization
+	$ pip install tensorflow numpy pandas scikit-learn opencv-python tensorflow-model-optimization tqdm
 	
 The model architecture can be set by changing the modelname field in any params.py:
 
@@ -20,7 +20,7 @@ For example, to train the PilotNet model with Depthwise Separable layers, change
 
 ### Dataset
 
-We assume that all datasets are located in a directory named "Datasets/" with the following structure:
+We assume that all datasets are located in a directory named "Dataset/" with the following structure:
 
 	```
 	Dataset
