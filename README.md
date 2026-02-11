@@ -75,6 +75,8 @@ Detailed instructions can be found in the [UdacitySim directory](https://github.
 ## Citation
 
 If you have found our work useful, please consider citing:
+
+```
 @inproceedings{bechtel2022deeppicarmicro,
   title={{DeepPicarMicro: Applying TinyML to Autonomous Cyber Physical Systems}},
   author={Bechtel, Michael and Weng, QiTao and Yun, Heechul},
@@ -83,3 +85,4 @@ If you have found our work useful, please consider citing:
   year={2022},
   organization={IEEE}
 }
+```
