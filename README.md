@@ -72,3 +72,14 @@ Detailed instructions can be found in the [Pico directory](https://github.com/CS
 
 Detailed instructions can be found in the [UdacitySim directory](https://github.com/CSL-KU/DeepPicarMicro/tree/main/UdacitySim).
 	
+## Citation
+
+If you have found our work useful, please consider citing:
+@inproceedings{bechtel2022deeppicarmicro,
+  title={{DeepPicarMicro: Applying TinyML to Autonomous Cyber Physical Systems}},
+  author={Bechtel, Michael and Weng, QiTao and Yun, Heechul},
+  booktitle={2022 IEEE 28th International Conference on Embedded and Real-Time Computing Systems and Applications (RTCSA)},
+  pages={120--127},
+  year={2022},
+  organization={IEEE}
+}
